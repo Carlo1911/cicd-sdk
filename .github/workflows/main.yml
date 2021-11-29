@@ -43,7 +43,7 @@ jobs:
         run: 'ls -la'
 
       - name: Install Requirements 
-        run: 'pip3 install -r infrastructure/requirements.txt'
+        run: 'pip3 install -r ./infrastructure/requirements.txt'
         working-directory: CDK-AWS
 
       - name: CDK Synth
