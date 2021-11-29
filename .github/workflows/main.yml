@@ -39,16 +39,6 @@ jobs:
       - name: Install AWS CDK
         run: 'sudo npm install -g aws-cdk'
 
-      - name: List files
-        run: 'ls -la'
-      
-      - name: Check file
-        run: 'cat ./infrastructure/requirements.txt'
-
-      - name: List files in infrastructure 
-        run: 'ls -la'
-        working-directory: infrastructure
-
       - name: Install Requirements 
         run: 'pip3 install -r requirements.txt'
         working-directory: infrastructure
@@ -58,5 +48,5 @@ jobs:
         working-directory: infrastructure
 
       - name: CDK Deploy
-        run: cdk deploy
+        run: 'cdk deploy --require-approval never'
         working-directory: infrastructure
