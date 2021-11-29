@@ -41,6 +41,9 @@ jobs:
 
       - name: List files
         run: 'ls -la'
+      
+      - name: Check file
+        run: 'cat ./infrastructure/requirements.txt'
 
       - name: Install Requirements 
         run: 'pip3 install -r ./infrastructure/requirements.txt'
