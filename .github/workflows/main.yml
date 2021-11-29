@@ -39,11 +39,11 @@ jobs:
       - name: Install AWS CDK
         run: 'sudo npm install -g aws-cdk'
 
-      - name: Install AWS CDK
+      - name: List files
         run: 'ls -la'
 
       - name: Install Requirements 
-        run: 'pip3 install -r ./infraestructure/requirements.txt'
+        run: 'pip3 install -r infrastructure/requirements.txt'
         working-directory: CDK-AWS
 
       - name: CDK Synth
