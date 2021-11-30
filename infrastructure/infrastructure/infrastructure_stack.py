@@ -28,7 +28,7 @@ class InfrastructureStack(core.Stack):
             self,
             id=f'{app_name}-app',
             entry='../code',
-            index='app/main.py',
+            index='main.py',
             handler='handler',
             runtime=lambda_.Runtime.PYTHON_3_8,
             environment=dict(UserTable=dynamo_auth_user.table_name, DEBUG='1'),
