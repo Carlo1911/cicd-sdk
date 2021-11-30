@@ -9,8 +9,8 @@ Project created to handle User data for others apps in TrueAccord
 5. CDK template that uses variables for names, so it's always <env>-<application>-<thing> (IE: pcid-email-magic-doohickey)
 6. Can be added to other deployments, can deploy multiple lambdas
 
-  
-# TODO: 
+
+# TODO:
 1. SAM/Secptre example? is it necessary?
 2. Python example
 3. Events

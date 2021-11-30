@@ -1,39 +1,37 @@
-from aws_cdk import (
-    aws_dynamodb as dynamodb,
-    aws_apigatewayv2 as apigateway,
-    aws_apigatewayv2_integrations as _apigw_integration,
-    aws_lambda as lambda_,
-    aws_lambda_python as _lambda_python,
-    core
-)
+from aws_cdk import aws_apigatewayv2 as apigateway
+from aws_cdk import aws_apigatewayv2_integrations as _apigw_integration
+from aws_cdk import aws_dynamodb as dynamodb
+from aws_cdk import aws_lambda as lambda_
+from aws_cdk import aws_lambda_python as _lambda_python
+from aws_cdk import core
 
 
 class InfrastructureStack(core.Stack):
-
-    def __init__(self, scope: core.Construct, construct_id: str, *, app_name: str, **kwargs) -> None:
+    def __init__(
+        self, scope: core.Construct, construct_id: str, *, app_name: str, **kwargs
+    ) -> None:
         super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
 
         dynamo_auth_user = dynamodb.Table(
             self,
             id=f'{app_name}-Dynamo',
-            table_name="AuthUserTable",
+            table_name='AuthUserTable',
             billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
-            partition_key=dynamodb.Attribute(name="userId", type=dynamodb.AttributeType.STRING),
-            removal_policy=core.RemovalPolicy.DESTROY
+            partition_key=dynamodb.Attribute(
+                name='userId', type=dynamodb.AttributeType.STRING
+            ),
+            removal_policy=core.RemovalPolicy.DESTROY,
         )
 
         lambda_fastapi = _lambda_python.PythonFunction(
             self,
             id=f'{app_name}-app',
-            entry='../app',
-            index='main.py',
+            entry='../code',
+            index='app/main.py',
             handler='handler',
             runtime=lambda_.Runtime.PYTHON_3_8,
-            environment=dict(
-                        UserTable=dynamo_auth_user.table_name,
-                        DEBUG='1'
-                        ),
+            environment=dict(UserTable=dynamo_auth_user.table_name, DEBUG='1'),
             timeout=core.Duration.seconds(60),  # TODO: check the timeout
         )
 

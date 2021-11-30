@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: auth-service:lastest
+    container_name: auth-service
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./app:/code/app:z
+    ports:
+      - "8000:8000"
+    networks:
+      - project-network
+
+networks:
+  project-network:
+    name: auth-service-network
