@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./app:/code/app:z
+      - .:/code:z
     ports:
       - "8000:8000"
     networks:

@@ -9,6 +9,7 @@ python = "^3.9"
 fastapi = "^0.70.0"
 uvicorn = "^0.15.0"
 mangum = "^0.12.3"
+python-dotenv = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
