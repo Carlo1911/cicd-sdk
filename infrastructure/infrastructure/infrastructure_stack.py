@@ -31,7 +31,13 @@ class InfrastructureStack(core.Stack):
             index='main.py',
             handler='handler',
             runtime=lambda_.Runtime.PYTHON_3_8,
-            environment=dict(UserTable=dynamo_auth_user.table_name, DEBUG='1'),
+            environment=dict(  # TODO: Add env vars to the stack. Should use the same from .env in code
+                UserTable=dynamo_auth_user.table_name,
+                DEBUG='1',
+                PROJECT_NAME='auth-service',
+                BACKEND_CORS_ORIGINS='["http://localhost:8000", "https://localhost:8000", \
+                    "http://localhost", "https://localhost". "https://6dzwaufot8.execute-api.us-west-2.amazonaws.com/"]'
+                ),
             timeout=core.Duration.seconds(60),  # TODO: check the timeout
         )
 
