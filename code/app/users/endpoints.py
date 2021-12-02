@@ -36,7 +36,7 @@ async def create_item(user: User):
 @router.get('/{user_id}')
 async def get_user(user_id: str):
     # TODO: Check if user exists in DynamoDB
-    print(f'AWS_SECRET_ACCESS_KEY: {settings.AWS_SECRET_ACCESS_KEY}')
+    print(f'DB_KEY: {settings.DB_KEY}')
     user = search(user_id)
     if not user:
         raise HTTPException(status_code=404, detail='User not found')

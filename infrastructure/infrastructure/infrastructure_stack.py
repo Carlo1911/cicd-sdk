@@ -41,7 +41,7 @@ class InfrastructureStack(core.Stack):
                 DEBUG='1',
                 PROJECT_NAME='auth-service',
                 BACKEND_CORS_ORIGINS='["http://localhost:8000", "https://localhost:8000", "https://6dzwaufot8.execute-api.us-west-2.amazonaws.com/"]',
-                AWS_SECRET_ACCESS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string()
+                DB_KEY=secrets.secret_value_from_json("AWS_KEY").to_string()
                 ),
             timeout=core.Duration.seconds(60),  # TODO: check the timeout
         )
