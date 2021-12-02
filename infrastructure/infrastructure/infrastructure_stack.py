@@ -2,6 +2,7 @@ from aws_cdk import aws_apigatewayv2 as apigateway
 from aws_cdk import aws_apigatewayv2_integrations as _apigw_integration
 from aws_cdk import aws_dynamodb as dynamodb
 from aws_cdk import aws_lambda as lambda_
+from aws_cdk import aws_secretsmanager as secretsmanager
 from aws_cdk import aws_lambda_python as _lambda_python
 from aws_cdk import core
 
@@ -24,6 +25,10 @@ class InfrastructureStack(core.Stack):
             removal_policy=core.RemovalPolicy.DESTROY,
         )
 
+        secrets = secretsmanager.Secret.from_secret_name_v2(
+            self, "AuthUserSecrets", secret_name='test_auth_secrets'
+        )
+
         lambda_fastapi = _lambda_python.PythonFunction(
             self,
             id=f'{app_name}-app',
@@ -35,7 +40,8 @@ class InfrastructureStack(core.Stack):
                 UserTable=dynamo_auth_user.table_name,
                 DEBUG='1',
                 PROJECT_NAME='auth-service',
-                BACKEND_CORS_ORIGINS='["http://localhost:8000", "https://localhost:8000", "https://6dzwaufot8.execute-api.us-west-2.amazonaws.com/"]'
+                BACKEND_CORS_ORIGINS='["http://localhost:8000", "https://localhost:8000", "https://6dzwaufot8.execute-api.us-west-2.amazonaws.com/"]',
+                AWS_SECRET_ACCESS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string()
                 ),
             timeout=core.Duration.seconds(60),  # TODO: check the timeout
         )

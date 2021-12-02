@@ -6,6 +6,7 @@ from pydantic import AnyHttpUrl, BaseSettings, validator
 class Settings(BaseSettings):
     PROJECT_NAME: str
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
+    AWS_SECRET_ACCESS_KEY: str
     # TODO: Add more settings here (AWS, DynamoDB, etc.)
 
     @validator('BACKEND_CORS_ORIGINS', pre=True)
