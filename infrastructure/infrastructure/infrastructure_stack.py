@@ -1,9 +1,9 @@
-import aws_cdk.aws_apigatewayv2 as apigateway
-import aws_cdk.aws_apigatewayv2_integrations as _apigw_integration
-import aws_cdk.aws_dynamodb as dynamodb
-import aws_cdk.aws_lambda as _lambda
-import aws_cdk.aws_secretsmanager as secretsmanager
-import aws_cdk.aws_lambda_python as _lambda_python
+from aws_cdk.aws_apigatewayv2_alpha import HttpApi
+from aws_cdk.aws_apigatewayv2_integrations_alpha import LambdaProxyIntegration
+from aws_cdk.aws_dynamodb import  Attribute, AttributeType, BillingMode, Table
+from aws_cdk.aws_lambda import Runtime
+from aws_cdk.aws_secretsmanager import  Secret
+from aws_cdk.aws_lambda_python_alpha import PythonFunction
 import aws_cdk as cdk
 
 
@@ -15,13 +15,13 @@ class InfrastructureStack(cdk.Stack):
         super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
 
-        dynamo_auth_user = dynamodb.Table(
+        dynamo_auth_user = Table(
             self,
             id=f'{app_name}-Dynamo',
             table_name='AuthUserTable',
-            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
-            partition_key=dynamodb.Attribute(
-                name='userId', type=dynamodb.AttributeType.STRING
+            billing_mode=BillingMode.PAY_PER_REQUEST,
+            partition_key=Attribute(
+                name='userId', type=AttributeType.STRING
             ),
             removal_policy=cdk.RemovalPolicy.DESTROY,
         )
@@ -30,13 +30,13 @@ class InfrastructureStack(cdk.Stack):
         #     self, "AuthUserSecrets", secret_name='Auth-User-Service-Secrets'
         # )
 
-        lambda_fastapi = _lambda_python.PythonFunction(
+        lambda_fastapi = PythonFunction(
             self,
             id=f'{app_name}-app',
             entry='../code',
             index='main.py',
             handler='handler',
-            runtime=_lambda.Runtime.PYTHON_3_8,
+            runtime=Runtime.PYTHON_3_8,
             environment=dict(  # TODO: Add env vars to the stack. Should use the same from .env in code
                 UserTable=dynamo_auth_user.table_name,
                 DEBUG='1',
@@ -50,16 +50,16 @@ class InfrastructureStack(cdk.Stack):
             timeout=cdk.Duration.seconds(60),  # TODO: check the timeout
         )
 
-        # grant permission to lambda to read from table
-        dynamo_auth_user.grant_read_data(lambda_fastapi)
+        # grant permission to lambda to read and write from table
+        dynamo_auth_user.grant_read_write_data(lambda_fastapi)
         # grant permission to lambda to write to table
-        dynamo_auth_user.grant_write_data(lambda_fastapi)
+        # dynamo_auth_user.grant_write_data(lambda_fastapi)
 
-        base_api = apigateway.HttpApi(
+        base_api = HttpApi(
             self,
             id=f'{app_name}-api',
             api_name=f'{app_name}-apigateway',
-            default_integration=_apigw_integration.LambdaProxyIntegration(
+            default_integration=LambdaProxyIntegration(
                 handler=lambda_fastapi
             ),
         )
