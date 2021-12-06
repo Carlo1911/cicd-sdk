@@ -1,15 +1,16 @@
-from aws_cdk import aws_apigatewayv2 as apigateway
-from aws_cdk import aws_apigatewayv2_integrations as _apigw_integration
-from aws_cdk import aws_dynamodb as dynamodb
-from aws_cdk import aws_lambda as lambda_
-from aws_cdk import aws_secretsmanager as secretsmanager
-from aws_cdk import aws_lambda_python as _lambda_python
-from aws_cdk import core
+import aws_cdk.aws_apigatewayv2 as apigateway
+import aws_cdk.aws_apigatewayv2_integrations as _apigw_integration
+import aws_cdk.aws_dynamodb as dynamodb
+import aws_cdk.aws_lambda as _lambda
+import aws_cdk.aws_secretsmanager as secretsmanager
+import aws_cdk.aws_lambda_python as _lambda_python
+import aws_cdk as cdk
 
 
-class InfrastructureStack(core.Stack):
+
+class InfrastructureStack(cdk.Stack):
     def __init__(
-        self, scope: core.Construct, construct_id: str, *, app_name: str, **kwargs
+        self, scope: cdk.Construct, construct_id: str, *, app_name: str, **kwargs
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
@@ -22,7 +23,7 @@ class InfrastructureStack(core.Stack):
             partition_key=dynamodb.Attribute(
                 name='userId', type=dynamodb.AttributeType.STRING
             ),
-            removal_policy=core.RemovalPolicy.DESTROY,
+            removal_policy=cdk.RemovalPolicy.DESTROY,
         )
 
         # secrets = secretsmanager.Secret.from_secret_name_v2(
@@ -35,7 +36,7 @@ class InfrastructureStack(core.Stack):
             entry='../code',
             index='main.py',
             handler='handler',
-            runtime=lambda_.Runtime.PYTHON_3_8,
+            runtime=_lambda.Runtime.PYTHON_3_8,
             environment=dict(  # TODO: Add env vars to the stack. Should use the same from .env in code
                 UserTable=dynamo_auth_user.table_name,
                 DEBUG='1',
@@ -46,7 +47,7 @@ class InfrastructureStack(core.Stack):
                 # DB_AWS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string(),
                 # DB_AWS_SECRET=secrets.secret_value_from_json("AWS_SECRETS").to_string(),
                 ),
-            timeout=core.Duration.seconds(60),  # TODO: check the timeout
+            timeout=cdk.Duration.seconds(60),  # TODO: check the timeout
         )
 
         # grant permission to lambda to read from table
@@ -63,7 +64,7 @@ class InfrastructureStack(core.Stack):
             ),
         )
 
-        core.CfnOutput(
+        cdk.CfnOutput(
             self,
             id=f'{app_name}-endpoint',
             value=base_api.api_endpoint,
