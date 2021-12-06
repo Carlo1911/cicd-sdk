@@ -4,13 +4,14 @@ from aws_cdk.aws_dynamodb import  Attribute, AttributeType, BillingMode, Table
 from aws_cdk.aws_lambda import Runtime
 from aws_cdk.aws_secretsmanager import  Secret
 from aws_cdk.aws_lambda_python_alpha import PythonFunction
-import aws_cdk as cdk
+from aws_cdk import CfnOutput, Duration, RemovalPolicy, Stack
+from constructs import Construct
 
 
 
-class InfrastructureStack(cdk.Stack):
+class InfrastructureStack(Stack):
     def __init__(
-        self, scope: cdk.Construct, construct_id: str, *, app_name: str, **kwargs
+        self, scope: Construct, construct_id: str, *, app_name: str, **kwargs
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
@@ -23,7 +24,7 @@ class InfrastructureStack(cdk.Stack):
             partition_key=Attribute(
                 name='userId', type=AttributeType.STRING
             ),
-            removal_policy=cdk.RemovalPolicy.DESTROY,
+            removal_policy=RemovalPolicy.DESTROY,
         )
 
         # secrets = secretsmanager.Secret.from_secret_name_v2(
@@ -47,7 +48,7 @@ class InfrastructureStack(cdk.Stack):
                 # DB_AWS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string(),
                 # DB_AWS_SECRET=secrets.secret_value_from_json("AWS_SECRETS").to_string(),
                 ),
-            timeout=cdk.Duration.seconds(60),  # TODO: check the timeout
+            timeout=Duration.seconds(60),  # TODO: check the timeout
         )
 
         # grant permission to lambda to read and write from table
@@ -64,7 +65,7 @@ class InfrastructureStack(cdk.Stack):
             ),
         )
 
-        cdk.CfnOutput(
+        CfnOutput(
             self,
             id=f'{app_name}-endpoint',
             value=base_api.api_endpoint,
