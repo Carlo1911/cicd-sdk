@@ -24,7 +24,7 @@ class InfrastructureStack(Stack):
             partition_key=Attribute(
                 name='userId', type=AttributeType.STRING
             ),
-            removal_policy=RemovalPolicy.DESTROY,
+            removal_policy=RemovalPolicy.RETAIN,
         )
 
         # secrets = secretsmanager.Secret.from_secret_name_v2(
@@ -39,8 +39,6 @@ class InfrastructureStack(Stack):
             handler='handler',
             runtime=Runtime.PYTHON_3_8,
             environment=dict(  # TODO: Add env vars to the stack. Should use the same from .env in code
-                UserTable=dynamo_auth_user.table_name,
-                DEBUG='1',
                 PROJECT_NAME='auth-service',
                 BACKEND_CORS_ORIGINS='["https://6dzwaufot8.execute-api.us-west-2.amazonaws.com/"]',
                 DB_TABLE=dynamo_auth_user.table_name,
@@ -48,7 +46,7 @@ class InfrastructureStack(Stack):
                 # DB_AWS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string(),
                 # DB_AWS_SECRET=secrets.secret_value_from_json("AWS_SECRETS").to_string(),
                 ),
-            timeout=Duration.seconds(60),  # TODO: check the timeout
+            timeout=Duration.seconds(5),  # TODO: check the timeout
         )
 
         # grant permission to lambda to read and write from table
