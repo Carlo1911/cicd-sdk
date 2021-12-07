@@ -38,7 +38,7 @@ class InfrastructureStack(Stack):
             index='main.py',
             handler='handler',
             runtime=Runtime.PYTHON_3_8,
-            environment=dict(  # TODO: Add env vars to the stack. Should use the same from .env in code
+            environment=dict(
                 PROJECT_NAME='auth-service',
                 BACKEND_CORS_ORIGINS='["https://6dzwaufot8.execute-api.us-west-2.amazonaws.com/"]',
                 DB_TABLE=dynamo_auth_user.table_name,
@@ -51,8 +51,6 @@ class InfrastructureStack(Stack):
 
         # grant permission to lambda to read and write from table
         dynamo_auth_user.grant_read_write_data(lambda_fastapi)
-        # grant permission to lambda to write to table
-        # dynamo_auth_user.grant_write_data(lambda_fastapi)
 
         base_api = HttpApi(
             self,
