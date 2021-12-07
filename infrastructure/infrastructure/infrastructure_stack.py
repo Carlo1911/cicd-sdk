@@ -16,14 +16,7 @@ class InfrastructureStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
 
-        dynamo_auth_user = Table.from_table_name(
-            self,
-            id=f'{app_name}-Dynamo',
-            table_name='AuthUserTable',
-        )
-
-        if not dynamo_auth_user.node:
-
+        try:
             dynamo_auth_user = Table(
                 self,
                 id=f'{app_name}-Dynamo',
@@ -34,6 +27,14 @@ class InfrastructureStack(Stack):
                 ),
                 removal_policy=RemovalPolicy.RETAIN,
             )
+        except Exception as e:
+            print(e)
+            dynamo_auth_user = Table.from_table_name(
+            self,
+            id=f'{app_name}-Dynamo',
+            table_name='AuthUserTable',
+        )
+
 
         # secrets = secretsmanager.Secret.from_secret_name_v2(
         #     self, "AuthUserSecrets", secret_name='Auth-User-Service-Secrets'
