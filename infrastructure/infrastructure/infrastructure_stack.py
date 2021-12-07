@@ -20,9 +20,9 @@ class InfrastructureStack(Stack):
             self,
             id=f'{app_name}-Dynamo',
             table_name='AuthUserTable',
-            partition_key=Attribute(
-                name="user_id", type=AttributeType.STRING,
-            ),
+            # partition_key=Attribute(
+            #     name="user_id", type=AttributeType.STRING,
+            # ),
             billing_mode=BillingMode.PAY_PER_REQUEST,
         )
 
