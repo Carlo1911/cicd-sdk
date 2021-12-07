@@ -16,16 +16,28 @@ class InfrastructureStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
 
-        dynamo_auth_user = Table(
+        dynamo_auth_user = Table.from_table_name(
             self,
             id=f'{app_name}-Dynamo',
             table_name='AuthUserTable',
-            billing_mode=BillingMode.PAY_PER_REQUEST,
             partition_key=Attribute(
-                name='userId', type=AttributeType.STRING
+                name="user_id", type=AttributeType.STRING,
             ),
-            removal_policy=RemovalPolicy.RETAIN,
+            billing_mode=BillingMode.PAY_PER_REQUEST,
         )
+
+        if not dynamo_auth_user.table_name:
+
+            dynamo_auth_user = Table(
+                self,
+                id=f'{app_name}-Dynamo',
+                table_name='AuthUserTable',
+                billing_mode=BillingMode.PAY_PER_REQUEST,
+                partition_key=Attribute(
+                    name='userId', type=AttributeType.STRING
+                ),
+                removal_policy=RemovalPolicy.RETAIN,
+            )
 
         # secrets = secretsmanager.Secret.from_secret_name_v2(
         #     self, "AuthUserSecrets", secret_name='Auth-User-Service-Secrets'
