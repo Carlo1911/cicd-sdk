@@ -22,7 +22,7 @@ class InfrastructureStack(Stack):
             table_name='AuthUserTable',
         )
 
-        if not dynamo_auth_user.table_name:
+        if not dynamo_auth_user.schema:
 
             dynamo_auth_user = Table(
                 self,
