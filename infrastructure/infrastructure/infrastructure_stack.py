@@ -23,7 +23,7 @@ class InfrastructureStack(Stack):
             # partition_key=Attribute(
             #     name="user_id", type=AttributeType.STRING,
             # ),
-            billing_mode=BillingMode.PAY_PER_REQUEST,
+            # billing_mode=BillingMode.PAY_PER_REQUEST,
         )
 
         if not dynamo_auth_user.table_name:
