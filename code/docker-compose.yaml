@@ -7,14 +7,28 @@ services:
       dockerfile: ./Dockerfile
     image: auth-service:lastest
     container_name: auth-service
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 9000 --reload
     restart: always
+    depends_on:
+      - dynamodb-local
     env_file:
       - .env
     volumes:
       - .:/code:z
     ports:
+      - "9000:9000"
+    networks:
+      - project-network
+
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
       - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
     networks:
       - project-network
 
