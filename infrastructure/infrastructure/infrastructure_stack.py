@@ -9,14 +9,20 @@ from aws_cdk.aws_dynamodb import BillingMode
 from aws_cdk.aws_dynamodb import Table
 from aws_cdk.aws_lambda import Runtime
 from aws_cdk.aws_lambda_python_alpha import PythonFunction
-from aws_cdk.aws_secretsmanager import Secret
 from constructs import Construct
+
 from .config import Config
 
 
 class AuthUserServiceStack(Stack):
     def __init__(
-        self, scope: Construct, construct_id: str, *, app_name: str, config=Config, **kwargs
+        self,
+        scope: Construct,
+        construct_id: str,
+        *,
+        app_name: str,
+        config=Config,
+        **kwargs,
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
@@ -31,10 +37,6 @@ class AuthUserServiceStack(Stack):
             removal_policy=config.db_removal_policy,
         )
 
-        secrets = Secret.from_secret_name_v2(
-            self, "AuthUserSecrets", secret_name="Auth-User-Service-Secrets"
-        )
-
         lambda_fastapi = PythonFunction(
             self,
             id=f"{app_name}-app",
@@ -46,9 +48,7 @@ class AuthUserServiceStack(Stack):
                 PROJECT_NAME=config.project_name,
                 BACKEND_CORS_ORIGINS='["http://localhost:9001/"]',
                 DB_TABLE=config.db_table_name,
-                DB_AWS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string(),
-                DB_AWS_SECRET=secrets.secret_value_from_json("AWS_SECRETS").to_string(),
-                REGION="us-west-2",
+                REGION=config.region,
             ),
             timeout=Duration.seconds(5),
         )
