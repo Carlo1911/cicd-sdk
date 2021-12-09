@@ -14,12 +14,12 @@ class Config:
     project_name: str = "Auth user service"
     db_table_name: str = "AuthUserTable"
     db_removal_policy: RemovalPolicy = RemovalPolicy.DESTROY
+    region: str = "us-west-2"
 
 
 def get_config(*, deploy_name: str) -> Config:
     if deploy_name == "Prod":
         return Config(
             db_removal_policy=RemovalPolicy.RETAIN,
-
         )
     return Config()
