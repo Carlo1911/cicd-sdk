@@ -12,7 +12,7 @@ from aws_cdk.aws_lambda import Runtime
 from aws_cdk.aws_lambda_python_alpha import PythonFunction
 from aws_cdk.aws_secretsmanager import Secret
 from constructs import Construct
-from config import Config
+from .config import Config
 
 
 class AuthUserServiceStack(Stack):
