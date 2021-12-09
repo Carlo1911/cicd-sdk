@@ -1,6 +1,5 @@
 from aws_cdk import CfnOutput
 from aws_cdk import Duration
-from aws_cdk import RemovalPolicy
 from aws_cdk import Stack
 from aws_cdk.aws_apigatewayv2_alpha import HttpApi
 from aws_cdk.aws_apigatewayv2_integrations_alpha import LambdaProxyIntegration
@@ -29,7 +28,7 @@ class AuthUserServiceStack(Stack):
             billing_mode=BillingMode.PAY_PER_REQUEST,
             point_in_time_recovery=True,
             partition_key=Attribute(name="userId", type=AttributeType.STRING),
-            removal_policy=RemovalPolicy.RETAIN,
+            removal_policy=config.db_removal_policy,
         )
 
         secrets = Secret.from_secret_name_v2(
