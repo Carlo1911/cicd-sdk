@@ -44,7 +44,7 @@ class AuthUserServiceStack(Stack):
             runtime=Runtime.PYTHON_3_9,
             environment=dict(
                 PROJECT_NAME=config.project_name,
-                BACKEND_CORS_ORIGINS='["http://localhost:9000/"]',
+                BACKEND_CORS_ORIGINS='["http://localhost:9001/"]',
                 DB_TABLE=config.db_table_name,
                 DB_AWS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string(),
                 DB_AWS_SECRET=secrets.secret_value_from_json("AWS_SECRETS").to_string(),
