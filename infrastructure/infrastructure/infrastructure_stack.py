@@ -18,7 +18,7 @@ class AuthUserServiceStack(Stack):
     def __init__(
         self, scope: Construct, construct_id: str, *, app_name: str, config=Config, **kwargs
     ) -> None:
-        super().__init__(scope, construct_id, termination_protection=config.termination_protection, **kwargs)
+        super().__init__(scope, construct_id, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
 
         dynamo_auth_user = Table(
