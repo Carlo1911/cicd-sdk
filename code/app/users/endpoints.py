@@ -1,12 +1,12 @@
+import os
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from app.core.config import settings
 
 router = APIRouter(
     prefix='/users',
     tags=['users'],
-    # dependencies=[Depends(get_token_header)],
     responses={404: {'description': 'Not found'}},
 )
 
@@ -36,7 +36,8 @@ async def create_item(user: User):
 @router.get('/{user_id}')
 async def get_user(user_id: str):
     # TODO: Check if user exists in DynamoDB
-    print(f'DB_KEY: {settings.DB_KEY}')
+    for item, value in os.environ.items():
+        print('{}: {}'.format(item, value))
     user = search(user_id)
     if not user:
         raise HTTPException(status_code=404, detail='User not found')

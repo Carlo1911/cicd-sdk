@@ -12,19 +12,20 @@ from aws_cdk.aws_lambda import Runtime
 from aws_cdk.aws_lambda_python_alpha import PythonFunction
 from aws_cdk.aws_secretsmanager import Secret
 from constructs import Construct
+from config import Config
 
 
 class AuthUserServiceStack(Stack):
     def __init__(
-        self, scope: Construct, construct_id: str, *, app_name: str, **kwargs
+        self, scope: Construct, construct_id: str, *, app_name: str, config=Config, **kwargs
     ) -> None:
-        super().__init__(scope, construct_id, **kwargs)
+        super().__init__(scope, construct_id, termination_protection=config.termination_protection, **kwargs)
         # TODO: Add vpc_config, custom domain & envs to the stack
 
         dynamo_auth_user = Table(
             self,
             id=f"{app_name}-Dynamo",
-            table_name="AuthUserTable",
+            table_name=config.db_table_name,
             billing_mode=BillingMode.PAY_PER_REQUEST,
             point_in_time_recovery=True,
             partition_key=Attribute(name="userId", type=AttributeType.STRING),
@@ -43,9 +44,9 @@ class AuthUserServiceStack(Stack):
             handler="handler",
             runtime=Runtime.PYTHON_3_9,
             environment=dict(
-                PROJECT_NAME="auth-service",
+                PROJECT_NAME=config.project_name,
                 BACKEND_CORS_ORIGINS='["http://localhost:9000/"]',
-                DB_TABLE=dynamo_auth_user.table_name,
+                DB_TABLE=config.db_table_name,
                 DB_AWS_KEY=secrets.secret_value_from_json("AWS_KEY").to_string(),
                 DB_AWS_SECRET=secrets.secret_value_from_json("AWS_SECRETS").to_string(),
                 REGION="us-west-2",
