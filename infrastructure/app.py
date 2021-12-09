@@ -9,6 +9,6 @@ env_name = os.environ.get('ENV_NAME', 'Prod')
 
 app = cdk.App()
 config = get_config(deploy_name=env_name)
-AuthUserServiceStack(app, f"{env_name}AuthUserService", app_name="{env_name}AuthUserService")
+AuthUserServiceStack(app, f"{env_name}AuthUserService", app_name="{env_name}AuthUserService", config=config)
 
 app.synth()
