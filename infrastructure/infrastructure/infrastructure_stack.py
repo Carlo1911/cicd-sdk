@@ -25,7 +25,7 @@ class AuthUserServiceStack(Stack):
         **kwargs,
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
-        # TODO: Add vpc_config, custom domain & envs to the stack
+        # TODO: Add vpc_config, custom domain and backups
 
         dynamo_auth_user = Table(
             self,
@@ -46,7 +46,7 @@ class AuthUserServiceStack(Stack):
             runtime=Runtime.PYTHON_3_9,
             environment=dict(
                 PROJECT_NAME=config.project_name,
-                BACKEND_CORS_ORIGINS='["http://localhost:9001/"]',
+                BACKEND_CORS_ORIGINS=config.backend_cors_origin,
                 DB_TABLE=config.db_table_name,
                 REGION=config.region,
             ),

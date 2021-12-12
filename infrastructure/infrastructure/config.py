@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 
 from aws_cdk import RemovalPolicy
@@ -15,6 +16,9 @@ class Config:
     db_table_name: str = "AuthUserTable"
     db_removal_policy: RemovalPolicy = RemovalPolicy.DESTROY
     region: str = "us-west-2"
+    backend_cors_origin: str = os.environ.get(
+        "ENDPOINT_CORS_ORIGIN", "['http://localhost:9001/']"
+    )
 
 
 def get_config(*, deploy_name: str) -> Config:
