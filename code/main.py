@@ -1,9 +1,8 @@
+from app.core.config import settings
+from app.users.endpoints import router as users_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
-
-from app.core.config import settings
-from app.users.endpoints import router as users_router
 
 
 def get_application():
@@ -13,8 +12,8 @@ def get_application():
         CORSMiddleware,
         allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
         allow_credentials=True,
-        allow_methods=['*'],
-        allow_headers=['*'],
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     return _app

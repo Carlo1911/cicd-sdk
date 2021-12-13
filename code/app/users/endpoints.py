@@ -1,20 +1,8 @@
-import os
-
-import boto3
 from app.core.config import settings
+from app.core.database import dynamodb
 from fastapi import APIRouter
 from fastapi import HTTPException
 from pydantic import BaseModel
-
-
-dynamodb = boto3.resource(
-    "dynamodb",
-    # endpoint_url="http://localhost:4566",
-    region_name="us-west-2",
-    aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-    aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
-    aws_session_token=os.environ.get("AWS_SESSION_TOKEN"),
-)
 
 
 router = APIRouter(
@@ -44,10 +32,7 @@ def search(user_id):
 async def create_user(user: User):
     # TODO: Create user in DynamoDB
     table = dynamodb.Table(settings.DB_TABLE)
-    print(settings.DB_TABLE)
     print(table)
-    print("====")
-    # print(list(dynamodb.tables.all()))
     response = table.put_item(Item=user.dict())
     print(response)
     return user
