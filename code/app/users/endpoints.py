@@ -47,7 +47,7 @@ async def create_user(user: User):
     print(settings.DB_TABLE)
     print(table)
     print("====")
-    print(list(dynamodb.tables.all()))
+    # print(list(dynamodb.tables.all()))
     response = table.put_item(Item=user.dict())
     print(response)
     return user
