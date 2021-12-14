@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from pydantic import BaseModel
 
@@ -75,10 +75,10 @@ class User(BaseModel):
     FirstName: str
     MiddleName: str
     LastName: str
-    DOB: datetime  # TODO: Check iso8601
+    DOB: date  # TODO: Check iso8601
     Addresses: dict
     Billing: Address
     PhoneNumbers: dict
     SSN: str
-    CreatedAt: datetime  # TODO: Check iso8601
-    UpdatedAt: datetime  # TODO: Check iso8601
+    CreatedAt: date  # TODO: Check iso8601
+    UpdatedAt: date  # TODO: Check iso8601
