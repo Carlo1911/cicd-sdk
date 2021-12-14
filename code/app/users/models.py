@@ -74,7 +74,6 @@ class User(BaseModel):
     LastName: str
     DOB: date  # TODO: Check iso8601
     Addresses: dict[str, Address]
-    Billing: Address
     PhoneNumbers: dict[str, str]
     SSN: str
     CreatedAt: date  # TODO: Check iso8601
