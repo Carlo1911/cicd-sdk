@@ -25,50 +25,47 @@ class Address(BaseModel):
 class User(BaseModel):
     """Data model for a user.
 
-    :param BaseModel: Class to represent a data model
-    :type BaseModel: class:`pydantic.BaseModel`
+        :param BaseModel: Class to represent a data model
+        :type BaseModel: class:`pydantic.BaseModel`
 
-    :param UID: Unique identifier for the user
-    :type UID: str
+        :param UID: Unique identifier for the user
+        :type UID: str
+        :param DOB: Date of birth
+        :type DOB: datetime.date
 
-    :param DOB: Date of birth
-    :type DOB: datetime.date
 
-
-    Example:
-        {
+        Example:
+            {
         "UID": "123456789",
-        "FirstName": "First",
-        "MiddleName": "Middle"
-        "LastName": "Last",
-        "DOB": YYYY-MM-DD (ISO 8601),
+        "FirstName": "Carlo",
+        "MiddleName": "Andre",
+        "LastName": "Alva",
+        "DOB": "1991-11-19",
         "Addresses": {
-           "Mailing": {
-           "StreetLine1": "123 Street",
-           "StreetLine2": "Apt A",
-           "City": "New York",
-           "State": "NY",
-           "ZipCode": "12345",
+            "Mailing": {
+                "StreetLine1": "123 Street",
+                "StreetLine2": "Apt A",
+                "City": "New York",
+                "State": "NY",
+                "ZipCode": "12345"
+            },
+            "Billing": {
+                "StreetLine1": "123 Street",
+                "StreetLine2": "Apt A",
+                "City": "New York",
+                "State": "NY",
+                "ZipCode": "12345"
+            }
         },
-        "Billing": {
-          "StreetLine1": "123 Street",
-         "StreetLine2": "Apt A",
-         "City": "New York",
-         "State": "NY",
-         "ZipCode": "12345",
-         },
+        "PhoneNumbers": {
+            "Home": "1234567890",
+            "Cell": "0987654321"
         },
-         "PhoneNumbers": {
-          "Home": "1234567890",
-          "Cell": "0987654321",
-          },
-          "SSN": "XXX-XX-1234",
-          "CreatedAt": YYYY-MM-DD (ISO 8601),
-         "UpdatedAt": YYYY-MM-DD (ISO 8601),
-        }
+        "SSN": "123-11-1234",
+        "CreatedAt": "2021-11-19",
+        "UpdatedAt": "2021-11-19"
+    }
 
-    :param collector_id: The collector ID
-    :return: (reviews aggregates, iterable of reviews)
     """
 
     UID: str
@@ -76,9 +73,9 @@ class User(BaseModel):
     MiddleName: str
     LastName: str
     DOB: date  # TODO: Check iso8601
-    Addresses: dict
+    Addresses: dict[str, Address]
     Billing: Address
-    PhoneNumbers: dict
+    PhoneNumbers: dict[str, str]
     SSN: str
     CreatedAt: date  # TODO: Check iso8601
     UpdatedAt: date  # TODO: Check iso8601
