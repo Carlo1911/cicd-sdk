@@ -2,7 +2,8 @@ from app.core.config import settings
 from app.core.database import dynamodb
 from fastapi import APIRouter
 from fastapi import HTTPException
-from pydantic import BaseModel
+
+from .models import User
 
 
 router = APIRouter(
@@ -16,12 +17,6 @@ fake_users_db = [
     {"id": 1, "username": "user1", "first_name": "Carlo"},
     {"id": 2, "username": "user2", "first_name": "André"},
 ]
-
-
-class User(BaseModel):
-    id: int
-    username: str
-    first_name: str
 
 
 def search(user_id):
