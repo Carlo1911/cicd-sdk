@@ -1,8 +1,8 @@
-from app.core.config import settings
-from app.users.endpoints import router as users_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
+from src.core.config import settings
+from src.users.endpoints import router as users_router
 
 
 def get_application():

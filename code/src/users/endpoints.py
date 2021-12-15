@@ -1,7 +1,7 @@
-from app.core.config import settings
-from app.core.database import dynamodb
 from fastapi import APIRouter
 from fastapi import HTTPException
+from src.core.config import settings
+from src.core.database import dynamodb
 
 from .models import User
 
@@ -32,11 +32,9 @@ async def create_user(user: User):
 
 @router.get("/{user_id}")
 async def get_user(user_id: str):
-    # TODO: Check if user exists in DynamoDB
     table = dynamodb.Table(settings.DB_TABLE)
     response = table.get_item(Key={"UID": user_id})
-    print(response)
-    user = response["Item"]
+    user = response.get("Item")
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user

@@ -4,7 +4,6 @@ import boto3
 
 dynamodb = boto3.resource(
     "dynamodb",
-    # endpoint_url="http://localhost:4566",
     region_name="us-west-2",
     aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),

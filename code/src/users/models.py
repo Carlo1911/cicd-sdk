@@ -73,12 +73,12 @@ class User(BaseModel):
     FirstName: str
     MiddleName: str
     LastName: str
-    DOB: str  # TODO: Check iso8601
+    DOB: str
     Addresses: dict[str, Address]
     PhoneNumbers: dict[str, str]
     SSN: str
-    CreatedAt: str  # TODO: Check iso8601
-    UpdatedAt: str  # TODO: Check iso8601
+    CreatedAt: str
+    UpdatedAt: str
 
     @validator("DOB", "CreatedAt", "UpdatedAt")
     def check_date_format(cls, value):
