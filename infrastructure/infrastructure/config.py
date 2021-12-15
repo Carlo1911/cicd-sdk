@@ -24,6 +24,6 @@ class Config:
 def get_config(*, deploy_name: str) -> Config:
     if deploy_name == "Prod":
         return Config(
-            db_removal_policy=RemovalPolicy.RETAIN,
+            db_removal_policy=RemovalPolicy.DESTROY,
         )
     return Config()
