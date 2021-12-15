@@ -80,7 +80,7 @@ class User(BaseModel):
     CreatedAt: str  # TODO: Check iso8601
     UpdatedAt: str  # TODO: Check iso8601
 
-    @validator("DOB")
+    @validator("DOB", "CreatedAt", "UpdatedAt")
     def check_date_format(cls, value):
         try:
             datetime.datetime.strptime(value, "%Y-%m-%d")
