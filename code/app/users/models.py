@@ -78,7 +78,8 @@ class User(BaseModel):
     CreatedAt: str  # TODO: Check iso8601
     UpdatedAt: str  # TODO: Check iso8601
 
-    @property
+    # TODO: Validate dates
+
     def to_mongo(self):
         serializer = boto3.dynamodb.types.TypeSerializer()
         ow_level_copy = {k: serializer.serialize(v) for k, v in self.dict().items()}

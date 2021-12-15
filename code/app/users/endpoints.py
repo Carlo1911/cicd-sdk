@@ -28,7 +28,6 @@ async def create_user(user: User):
     # TODO: Create user in DynamoDB
     table = dynamodb.Table(settings.DB_TABLE)
     print(user.json())
-    print(user.to_mongo())
     response = table.put_item(Item=user.json())
     print(response)
     return user
