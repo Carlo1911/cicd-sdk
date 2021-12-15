@@ -1,5 +1,3 @@
-from datetime import date
-
 import boto3
 from pydantic import BaseModel
 
@@ -73,12 +71,12 @@ class User(BaseModel):
     FirstName: str
     MiddleName: str
     LastName: str
-    DOB: date  # TODO: Check iso8601
+    DOB: str  # TODO: Check iso8601
     Addresses: dict[str, Address]
     PhoneNumbers: dict[str, str]
     SSN: str
-    CreatedAt: date  # TODO: Check iso8601
-    UpdatedAt: date  # TODO: Check iso8601
+    CreatedAt: str  # TODO: Check iso8601
+    UpdatedAt: str  # TODO: Check iso8601
 
     @property
     def to_mongo(self):
