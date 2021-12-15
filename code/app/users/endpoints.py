@@ -33,7 +33,10 @@ async def create_user(user: User):
 @router.get("/{user_id}")
 async def get_user(user_id: str):
     # TODO: Check if user exists in DynamoDB
-    user = search(user_id)
+    table = dynamodb.Table(settings.DB_TABLE)
+    response = table.get_item(Key={"UID": user_id})
+    print(response)
+    user = response["Item"]
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
