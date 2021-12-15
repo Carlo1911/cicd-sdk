@@ -48,7 +48,7 @@ async def update_user(user_id: str, user: User):
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     # Update the user
-    old_user = User(old_user)
+    old_user = User(**old_user)
     print(old_user.__dict__.items() ^ user.__dict__.items())
     # table.update_item(
     #     Key={"UID": user_id},
