@@ -1,5 +1,6 @@
 from datetime import date
 
+import boto3
 from pydantic import BaseModel
 
 
@@ -78,3 +79,9 @@ class User(BaseModel):
     SSN: str
     CreatedAt: date  # TODO: Check iso8601
     UpdatedAt: date  # TODO: Check iso8601
+
+    @property
+    def to_mongo(self):
+        serializer = boto3.dynamodb.types.TypeSerializer()
+        ow_level_copy = {k: serializer.serialize(v) for k, v in self.dict().items()}
+        return ow_level_copy
