@@ -27,8 +27,8 @@ def search(user_id):
 async def create_user(user: User):
     # TODO: Create user in DynamoDB
     table = dynamodb.Table(settings.DB_TABLE)
-    print(user.dict())
-    response = table.put_item(Item=user.dict())
+    print(user.json())
+    response = table.put_item(Item=user.json())
     print(response)
     return user
 
