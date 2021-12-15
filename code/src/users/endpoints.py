@@ -41,9 +41,18 @@ async def get_user(user_id: str):
 
 
 @router.patch("/{user_id}")
-async def update_user(user_id: str):
-    # TODO: Update user in DynamoDB
-    user = search(user_id)
+async def update_user(user_id: str, user: User):
+    table = dynamodb.Table(settings.DB_TABLE)
+    response = table.get_item(Key={"UID": user_id})
+    user = response.get("Item")
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+    # Update the user
+    old_user = User.parse_raw(user)
+    print(old_user.__dict__.items() ^ user.__dict__.items())
+    # table.update_item(
+    #     Key={"UID": user_id},
+    #     UpdateExpression="SET age = :val1",
+    #     ExpressionAttributeValues={":val1": 26},
+    # )
     return user

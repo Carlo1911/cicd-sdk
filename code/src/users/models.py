@@ -72,7 +72,6 @@ class User(BaseModel):
 
     """
 
-    # UID: str
     UID: Annotated[str, Field(default_factory=lambda: uuid4().hex)]
     FirstName: str
     MiddleName: str
