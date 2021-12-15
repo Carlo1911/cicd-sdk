@@ -23,14 +23,14 @@ def search(user_id):
     return [user for user in fake_users_db if user["id"] == int(user_id)]
 
 
-@router.post("/")
+@router.post("/", response_model=User)
 async def create_user(user: User):
     table = dynamodb.Table(settings.DB_TABLE)
     table.put_item(Item=user.dict())
     return user
 
 
-@router.get("/{user_id}")
+@router.get("/{user_id}", response_model=User)
 async def get_user(user_id: str):
     table = dynamodb.Table(settings.DB_TABLE)
     response = table.get_item(Key={"UID": user_id})
@@ -40,15 +40,15 @@ async def get_user(user_id: str):
     return user
 
 
-@router.patch("/{user_id}")
+@router.patch("/{user_id}", response_model=User)
 async def update_user(user_id: str, user: User):
     table = dynamodb.Table(settings.DB_TABLE)
     response = table.get_item(Key={"UID": user_id})
-    user = response.get("Item")
+    old_user = response.get("Item")
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     # Update the user
-    old_user = User.parse_raw(user)
+    old_user = User(old_user)
     print(old_user.__dict__.items() ^ user.__dict__.items())
     # table.update_item(
     #     Key={"UID": user_id},
