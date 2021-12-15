@@ -1,5 +1,7 @@
-import boto3
+import datetime
+
 from pydantic import BaseModel
+from pydantic import validator
 
 
 class Address(BaseModel):
@@ -78,9 +80,10 @@ class User(BaseModel):
     CreatedAt: str  # TODO: Check iso8601
     UpdatedAt: str  # TODO: Check iso8601
 
-    # TODO: Validate dates
-
-    def to_mongo(self):
-        serializer = boto3.dynamodb.types.TypeSerializer()
-        ow_level_copy = {k: serializer.serialize(v) for k, v in self.dict().items()}
-        return ow_level_copy
+    @validator("DOB")
+    def check_date_format(cls, value):
+        try:
+            datetime.datetime.strptime(value, "%Y-%m-%d")
+        except ValueError:
+            raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+        return value
