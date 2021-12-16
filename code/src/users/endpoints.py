@@ -49,9 +49,7 @@ async def update_user(user_id: str, user: User):
         raise HTTPException(status_code=404, detail="User not found")
     # Update the user
     user_dict = user.dict()
-    print(user_dict)
     current_user.update(user_dict)
-    print(current_user)
 
     update_expression = "SET"
     expression_attribute_values = {}
@@ -62,8 +60,6 @@ async def update_user(user_id: str, user: User):
             update_expression += f" {key} = :val{counter},"
             expression_attribute_values[f":val{counter}"] = value
             counter += 1
-    print(update_expression)
-    print(expression_attribute_values)
     table.update_item(
         Key={"UID": user_id},
         UpdateExpression=update_expression[:-1],
