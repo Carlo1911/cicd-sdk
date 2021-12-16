@@ -58,9 +58,10 @@ async def update_user(user_id: str, user: User):
     counter = 1
 
     for key, value in current_user.items():
-        update_expression += f" {key} = :val{counter},"
-        expression_attribute_values[f":val{counter}"] = value
-        counter += 1
+        if key != "UID":
+            update_expression += f" {key} = :val{counter},"
+            expression_attribute_values[f":val{counter}"] = value
+            counter += 1
     print(update_expression)
     print(expression_attribute_values)
     table.update_item(
