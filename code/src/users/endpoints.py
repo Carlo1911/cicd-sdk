@@ -13,16 +13,6 @@ router = APIRouter(
 )
 
 
-fake_users_db = [
-    {"id": 1, "username": "user1", "first_name": "Carlo"},
-    {"id": 2, "username": "user2", "first_name": "André"},
-]
-
-
-def search(user_id):
-    return [user for user in fake_users_db if user["id"] == int(user_id)]
-
-
 @router.post("/", response_model=User)
 async def create_user(user: User):
     table = dynamodb.Table(settings.DB_TABLE)
