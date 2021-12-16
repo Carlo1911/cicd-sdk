@@ -53,12 +53,12 @@ async def update_user(user_id: str, user: User):
     current_user.update(user_dict)
     print(current_user)
 
-    update_expression = ""
+    update_expression = "SET"
     expression_attribute_values = {}
     counter = 1
 
     for key, value in current_user.items():
-        update_expression += f"SET {key} = :val{counter},"
+        update_expression += f" {key} = :val{counter},"
         expression_attribute_values[f":val{counter}"] = value
         counter += 1
     print(update_expression)
