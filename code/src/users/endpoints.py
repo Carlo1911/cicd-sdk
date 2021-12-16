@@ -44,15 +44,25 @@ async def get_user(user_id: str):
 async def update_user(user_id: str, user: User):
     table = dynamodb.Table(settings.DB_TABLE)
     response = table.get_item(Key={"UID": user_id})
-    old_user = response.get("Item")
-    if not user:
+    current_user = response.get("Item")
+    if not current_user:
         raise HTTPException(status_code=404, detail="User not found")
     # Update the user
-    old_user = User(**old_user)
-    print(old_user.__dict__.items() ^ user.__dict__.items())
-    # table.update_item(
-    #     Key={"UID": user_id},
-    #     UpdateExpression="SET age = :val1",
-    #     ExpressionAttributeValues={":val1": 26},
-    # )
-    return user
+    user_dict = user.dict()
+    current_user.update(user_dict)
+
+    update_expression = ""
+    expression_attribute_values = {}
+    counter = 1
+
+    for key, value in current_user.items():
+        update_expression += f"{key} = :val{counter},"
+        expression_attribute_values[f":val{counter}"] = value
+        counter += 1
+    table.update_item(
+        Key={"UID": user_id},
+        UpdateExpression=update_expression[:-1],
+        ExpressionAttributeValues=expression_attribute_values,
+    )
+
+    return current_user
