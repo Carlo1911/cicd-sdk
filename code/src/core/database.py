@@ -16,6 +16,4 @@ if os.environ.get("IS_OFFLINE"):
         verify=False,
     )
 else:
-    dynamodb = boto3.resource(
-        "dynamodb", region_name=os.environ.get("AWS_DEFAULT_REGION")
-    )
+    dynamodb = boto3.resource("dynamodb")
