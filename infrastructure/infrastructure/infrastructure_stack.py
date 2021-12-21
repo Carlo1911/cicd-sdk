@@ -33,7 +33,7 @@ class AuthUserServiceStack(Stack):
             table_name=config.db_table_name,
             billing_mode=BillingMode.PAY_PER_REQUEST,
             point_in_time_recovery=True,
-            partition_key=Attribute(name="UID", type=AttributeType.STRING),
+            partition_key=Attribute(name="uid", type=AttributeType.STRING),
             removal_policy=config.db_removal_policy,
         )
 

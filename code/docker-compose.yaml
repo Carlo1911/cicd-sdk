@@ -34,6 +34,10 @@ services:
       - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
       - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
       - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION-us-west-2}
+      - DEFAULT_REGION=us-west-2
+      - HOSTNAME=${HOSTNAME-localstack}
+      - HOSTNAME_EXTERNAL=${HOSTNAME_EXTERNAL-localstack}
     volumes:
       - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"

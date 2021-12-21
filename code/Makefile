@@ -13,5 +13,11 @@ up: ## start the project
 down: ## delete all conatainers and volumes
 	docker-compose down -v
 
+stop: ## build the project
+	docker-compose stop
+
 shell-web: ## connect to the web container
 	docker-compose exec web /bin/bash
+
+tests: ## run tests
+	docker-compose exec web /bin/bash -c "poetry run pytest"

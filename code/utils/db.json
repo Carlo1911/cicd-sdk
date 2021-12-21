@@ -1,0 +1,19 @@
+{
+    "TableName": "AuthUserTable",
+      "KeySchema": [
+        {
+          "AttributeName": "uid",
+          "KeyType": "HASH"
+        }
+      ],
+      "AttributeDefinitions": [
+        {
+          "AttributeName": "uid",
+          "AttributeType": "S"
+        }
+      ],
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+  }

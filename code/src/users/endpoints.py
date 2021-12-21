@@ -13,7 +13,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=User)
+@router.post("", response_model=User)
 async def create_user(user: User):
     table = dynamodb.Table(settings.DB_TABLE)
     table.put_item(Item=user.dict())
@@ -23,7 +23,7 @@ async def create_user(user: User):
 @router.get("/{user_id}", response_model=User)
 async def get_user(user_id: str):
     table = dynamodb.Table(settings.DB_TABLE)
-    response = table.get_item(Key={"UID": user_id})
+    response = table.get_item(Key={"uid": user_id})
     user = response.get("Item")
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -33,7 +33,7 @@ async def get_user(user_id: str):
 @router.patch("/{user_id}", response_model=User)
 async def update_user(user_id: str, user: User):
     table = dynamodb.Table(settings.DB_TABLE)
-    response = table.get_item(Key={"UID": user_id})
+    response = table.get_item(Key={"uid": user_id})
     current_user = response.get("Item")
     if not current_user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -46,13 +46,15 @@ async def update_user(user_id: str, user: User):
     counter = 1
 
     for key, value in current_user.items():
-        if key != "UID":
+        if key != "uid":
             update_expression += f" {key} = :val{counter},"
             expression_attribute_values[f":val{counter}"] = value
             counter += 1
+    # removing last coma in update_expression: SET firstName = :val1, ...
+    update_expression = update_expression[:-1]
     table.update_item(
-        Key={"UID": user_id},
-        UpdateExpression=update_expression[:-1],
+        Key={"uid": user_id},
+        UpdateExpression=update_expression,
         ExpressionAttributeValues=expression_attribute_values,
     )
 
