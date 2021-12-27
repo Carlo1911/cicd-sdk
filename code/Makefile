@@ -13,7 +13,7 @@ up: ## start the project
 down: ## delete all conatainers and volumes
 	docker-compose down -v
 
-stop: ## build the project
+stop: ## stop the project
 	docker-compose stop
 
 shell-web: ## connect to the web container

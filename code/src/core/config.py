@@ -9,7 +9,6 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     DB_TABLE: str
     BACKEND_CORS_ORIGINS: list[AnyHttpUrl] = []
-    REGION: str
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(

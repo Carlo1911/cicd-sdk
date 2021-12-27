@@ -11,6 +11,11 @@ services:
     restart: always
     depends_on:
       - dynamodb-local
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY-test}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN-test}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION-us-west-2}
     env_file:
       - .env
     volumes:
@@ -29,9 +34,9 @@ services:
       - "127.0.0.1:4571:4571"
     environment:
       - SERVICES=${SERVICES- }
-      - DEBUG=${DEBUG- }
+      - DEBUG=${DEBUG-0}
       - DATA_DIR=${DATA_DIR- }
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-local}
       - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
       - DOCKER_HOST=unix:///var/run/docker.sock
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION-us-west-2}
@@ -41,6 +46,21 @@ services:
     volumes:
       - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - project-network
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin
+    ports:
+      - "9002:9002"
+    environment:
+      - DYNAMO_ENDPOINT=http://${HOSTNAME-localstack}:4566 dynamodb-admin
+      - AWS_REGION=${AWS_DEFAULT_REGION-us-west-2}
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - PORT=9002
+    depends_on:
+      - localstack
     networks:
       - project-network
 

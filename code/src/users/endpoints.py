@@ -50,7 +50,7 @@ async def update_user(user_id: str, user: User):
             update_expression += f" {key} = :val{counter},"
             expression_attribute_values[f":val{counter}"] = value
             counter += 1
-    # removing last coma in update_expression: SET firstName = :val1, ...
+    # removing last comma in update_expression: SET firstName = :val1, ...
     update_expression = update_expression[:-1]
     table.update_item(
         Key={"uid": user_id},

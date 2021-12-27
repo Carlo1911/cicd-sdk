@@ -1,0 +1,30 @@
+{
+    "uid": "45078f7613bf456a8b62497aa3febd83",
+    "middleName": "Andre",
+    "updatedAt": "2021-11-19",
+    "dob": "1991-11-19",
+    "firstName": "Carlo",
+    "last4Ssn": "1234",
+    "addresses": {
+        "mailing": {
+            "city": "New York",
+            "streetLine2": "Apt A",
+            "state": "NY",
+            "zipCode": "12345",
+            "streetLine1": "123 Street"
+        },
+        "billing": {
+            "city": "New York",
+            "streetLine2": "Apt A",
+            "state": "NY",
+            "zipCode": "12345",
+            "streetLine1": "123 Street"
+        }
+    },
+    "phoneNumbers": {
+        "home": "4448969",
+        "cell": "0987654321"
+    },
+    "lastName": "Cohello",
+    "createdAt": "2021-11-19"
+}

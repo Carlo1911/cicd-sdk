@@ -36,6 +36,7 @@ class Address(BaseModel):
     class Config:
         alias_generator = to_camel
         allow_population_by_field_name = True
+        extra = "forbid"
 
 
 class User(BaseModel):
@@ -48,8 +49,8 @@ class User(BaseModel):
         :type uid: str
         :param dob: Date of birth
         :type dob: datetime.date
-        :param ssn: Social Security Number
-        :type ssn: str
+        :param last4Ssn: Last four Social Security Number
+        :type last4Ssn: str
 
         Example:
             {
@@ -78,7 +79,7 @@ class User(BaseModel):
             "home": "1234567890",
             "cell": "0987654321"
         },
-        "ssn": "123-11-1234",
+        "last4Ssn": "1234",
         "createdAt": "2021-11-19",
         "updatedAt": "2021-11-19"
     }
@@ -92,13 +93,14 @@ class User(BaseModel):
     date_of_birth: str = Field(alias="dob")
     addresses: dict[str, Address]
     phone_numbers: dict[str, str]
-    social_security_number: str = Field(alias="ssn")
+    last_4_social_security_number: str = Field(alias="last4Ssn", max_length=4)
     created_at: str
     updated_at: str
 
     class Config:
         alias_generator = to_camel
         allow_population_by_field_name = True
+        extra = "forbid"
 
     @validator("date_of_birth", "created_at", "updated_at")
     def check_date_format(cls, value):

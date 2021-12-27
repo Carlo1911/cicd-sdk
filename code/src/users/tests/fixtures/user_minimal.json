@@ -1,0 +1,22 @@
+{
+    "uid": "45078f7613bf456a8b62497aa3febd2",
+    "updatedAt": "2021-11-19",
+    "dob": "1991-11-19",
+    "firstName": "Carlo",
+    "middleName": null,
+    "last4Ssn": "1234",
+    "addresses": {
+        "mailing": {
+            "city": "New York",
+            "state": "NY",
+            "zipCode": "12345",
+            "streetLine1": "123 Street",
+            "streetLine2": null
+        }
+    },
+    "phoneNumbers": {
+        "home": "4448969"
+    },
+    "lastName": "Cohello",
+    "createdAt": "2021-11-19"
+}

@@ -9,6 +9,9 @@ Install awscli
 Check if aws is installed
 ```aws --version```
 
+Create .env from .env.example
+```cp .env.example .env```
+
 ### steps
 1. Configure aws credentials and create a profile
 ```aws configure --profile localstack```
