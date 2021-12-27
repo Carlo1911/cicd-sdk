@@ -1,4 +1,5 @@
 import datetime
+import re
 from typing import Optional
 from uuid import uuid4
 
@@ -47,6 +48,8 @@ class User(BaseModel):
 
         :param uid: Unique identifier for the user
         :type uid: str
+        :param firebaseId: Unique identifier for the user in firebase
+        :type firebaseId: str
         :param dob: Date of birth
         :type dob: datetime.date
         :param last4Ssn: Last four Social Security Number
@@ -55,6 +58,7 @@ class User(BaseModel):
         Example:
             {
         "uid": "123456789",
+        firebaseId: "QR8rW5BoYqfTxDUW95tHhqO4V2s2",
         "firstName": "Carlo",
         "middleName": "Andre",
         "lastName": "Alva",
@@ -87,6 +91,7 @@ class User(BaseModel):
     """
 
     uid: Annotated[str, Field(default_factory=lambda: uuid4().hex)]
+    firebase_id: str = Field(max_length=128)
     first_name: str
     middle_name: Optional[str]
     last_name: str
@@ -108,4 +113,16 @@ class User(BaseModel):
             datetime.datetime.strptime(value, "%Y-%m-%d")
         except ValueError:
             raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+        return value
+
+    @validator("firebase_id")
+    def check_firebase_id(cls, value):
+        if len(value) > 128:
+            raise ValueError("Firebase ID must be less than 128 characters")
+        pattern = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+")
+        if not re.fullmatch(pattern, value):
+            raise ValueError(
+                "Firebase ID must be contain at least one lowercase letter, one \
+                    uppercase letter, and one number"
+            )
         return value
