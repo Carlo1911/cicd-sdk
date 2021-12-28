@@ -38,8 +38,6 @@ class AuthUserServiceStack(Stack):
         )
 
         dynamo_auth_user.add_global_secondary_index(
-            read_capacity=5,
-            write_capacity=5,
             index_name="firebase-index",
             partition_key=Attribute(name="firebase_id", type=AttributeType.STRING),
         )
