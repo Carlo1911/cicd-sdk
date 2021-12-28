@@ -1,3 +1,4 @@
+from boto3.dynamodb.conditions import Key
 from fastapi import APIRouter
 from fastapi import HTTPException
 from src.core.config import settings
@@ -33,7 +34,12 @@ async def get_user(user_id: str):
 @router.get("/firebase/{firebase_id}", response_model=User)
 async def get_user_by_firebase_id(firebase_id: str):
     table = dynamodb.Table(settings.DB_TABLE)
-    response = table.get_item(Key={"firebase_id": firebase_id})
+
+    response = table.query(
+        IndexName="firebase-index",
+        KeyConditionExpression=Key("firebase_id").eq(firebase_id),
+    )
+    print(response)
     user = response.get("Item")
     if not user:
         raise HTTPException(status_code=404, detail="User not found")

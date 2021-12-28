@@ -58,7 +58,7 @@ class User(BaseModel):
         Example:
             {
         "uid": "123456789",
-        firebaseId: "QR8rW5BoYqfTxDUW95tHhqO4V2s2",
+        "firebaseId": "QR8rW5BoYqfTxDUW95tHhqO4V2s2",
         "firstName": "Carlo",
         "middleName": "Andre",
         "lastName": "Alva",
