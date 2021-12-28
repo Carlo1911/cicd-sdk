@@ -20,7 +20,7 @@ should be compleated like this:
 ```
 AWS Access Key ID: test
 AWS Secret Access Key: test
-Default region name: us-west-2
+Default region name: us-east-2
 Default output format [None]:
 ```
 2. Set the profile in a terminal

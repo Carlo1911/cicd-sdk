@@ -15,7 +15,7 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID-test}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY-test}
       - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN-test}
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION-us-west-2}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION-us-east-2}
     env_file:
       - .env
     volumes:
@@ -39,8 +39,8 @@ services:
       - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-local}
       - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
       - DOCKER_HOST=unix:///var/run/docker.sock
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION-us-west-2}
-      - DEFAULT_REGION=us-west-2
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION-us-east-2}
+      - DEFAULT_REGION=us-east-2
       - HOSTNAME=${HOSTNAME-localstack}
       - HOSTNAME_EXTERNAL=${HOSTNAME_EXTERNAL-localstack}
     volumes:
@@ -55,7 +55,7 @@ services:
       - "9002:9002"
     environment:
       - DYNAMO_ENDPOINT=http://${HOSTNAME-localstack}:4566 dynamodb-admin
-      - AWS_REGION=${AWS_DEFAULT_REGION-us-west-2}
+      - AWS_REGION=${AWS_DEFAULT_REGION-us-east-2}
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
       - PORT=9002

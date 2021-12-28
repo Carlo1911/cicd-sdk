@@ -15,7 +15,7 @@ class Config:
     project_name: str = "Auth user service"
     db_table_name: str = "AuthUserTable"
     db_removal_policy: RemovalPolicy = RemovalPolicy.DESTROY
-    region: str = "us-west-2"
+    region: str = "us-east-2"
     backend_cors_origin: str = os.environ.get(
         "ENDPOINT_CORS_ORIGIN", "['http://localhost:9001/']"
     )
