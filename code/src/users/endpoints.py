@@ -30,6 +30,16 @@ async def get_user(user_id: str):
     return user
 
 
+@router.get("/firebase/{firebase_id}", response_model=User)
+async def get_user_by_firebase_id(firebase_id: str):
+    table = dynamodb.Table(settings.DB_TABLE)
+    response = table.get_item(Key={"firebase_id": firebase_id})
+    user = response.get("Item")
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+
 @router.patch("/{user_id}", response_model=User)
 async def update_user(user_id: str, user: User):
     table = dynamodb.Table(settings.DB_TABLE)
