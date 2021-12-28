@@ -7,7 +7,7 @@ from infrastructure.config import get_config
 from infrastructure.infrastructure_stack import AuthUserServiceStack
 
 env_name = os.environ.get("ENV_NAME", "Prod")
-app_name = f"{env_name}AuthUserService"
+app_name = f"{env_name}AuthUserServiceStack"
 
 app = cdk.App()
 config = get_config(deploy_name=env_name)
