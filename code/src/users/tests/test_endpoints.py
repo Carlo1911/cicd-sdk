@@ -97,3 +97,17 @@ def test_forbidden_extra_fields(user_with_extra_field):
     json_response = response.json()
     assert response.status_code == 422
     assert json_response["detail"][0]["msg"] == "extra fields not permitted"
+
+
+def test_create_with_wrong_firebase_id_format(user_with_wrong_firebase_id_format):
+    response = client.post(
+        "/users",
+        json=user_with_wrong_firebase_id_format,
+    )
+    json_response = response.json()
+    assert response.status_code == 422
+    assert (
+        json_response["detail"][0]["msg"]
+        == "Firebase ID must be contain at least one lowercase letter, one \
+                    uppercase letter, and one number"
+    )

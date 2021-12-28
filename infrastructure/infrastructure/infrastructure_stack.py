@@ -37,6 +37,13 @@ class AuthUserServiceStack(Stack):
             removal_policy=config.db_removal_policy,
         )
 
+        dynamo_auth_user.add_global_secondary_index(
+            read_capacity=5,
+            write_capacity=5,
+            index_name="firebase-index",
+            partition_key=Attribute(name="firebase_id", type=AttributeType.STRING),
+        )
+
         lambda_fastapi = PythonFunction(
             self,
             id=f"{app_name}-app",

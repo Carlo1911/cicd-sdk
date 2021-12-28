@@ -40,6 +40,11 @@ def user_with_wrong_date_format():
 
 
 @pytest.fixture
+def user_with_wrong_firebase_id_format():
+    return _load_fixture_from_file("user_with_wrong_firebase_id_format.json")
+
+
+@pytest.fixture
 def user_with_wrong_social_security_number():
     return _load_fixture_from_file("user_with_wrong_social_security_number.json")
 
