@@ -34,16 +34,14 @@ async def get_user(user_id: str):
 @router.get("/firebase/{firebase_id}", response_model=User)
 async def get_user_by_firebase_id(firebase_id: str):
     table = dynamodb.Table(settings.DB_TABLE)
-
     response = table.query(
         IndexName="firebase-index",
         KeyConditionExpression=Key("firebase_id").eq(firebase_id),
     )
-    print(response)
-    user = response.get("Item")
-    if not user:
+    count = response.get("Counter")
+    if not count:
         raise HTTPException(status_code=404, detail="User not found")
-    return user
+    return response.get("Items")[0]
 
 
 @router.patch("/{user_id}", response_model=User)
